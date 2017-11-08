@@ -107,7 +107,7 @@ def classify(inputTree, featLabels, testVec):
     for key in secondDict.keys():
         if testVec[featIndex] == key:
             if type(secondDict[key]).__name__ == 'dict':
-                classify(secondDict[key], featLabels, testVec)
+                classLabel = classify(secondDict[key], featLabels, testVec)
             else:
                 classLabel = secondDict[key]
     return classLabel

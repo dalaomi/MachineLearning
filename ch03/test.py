@@ -25,7 +25,7 @@ myList = [0, 1, 1, 1, 0, 1]
 myList1 = [1, 0, 0, 0, 1, 0]
 tree.majorityCnt(myList)
 tree.majorityCnt(myList1)
-print labels
+
 
 # myTree = tree.createTree(myDataSet, labels)
 # print myTree
@@ -35,8 +35,15 @@ print labels
 
 myTree = treePlotter.retrieveTree(0)
 print myTree
+print '-----'
+cc = tree.classify(myTree, labels, [1, 1])
+print cc
 
-print tree.classify(myTree, labels, [1, 0])
+cc = tree.classify(myTree, labels, [1,0])
+print cc
 
+
+cc = tree.classify(myTree, labels, [0])
+print cc
 
 
