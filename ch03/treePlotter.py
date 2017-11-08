@@ -21,8 +21,13 @@ def createPlot():
     plotNode('a decision node', (0.5, 0.1), (0.1, 0.5), decisionNode)
     plotNode('a leaf node', (0.8, 0.1), (0.3, 0.8), leafNode)
     plt.show()
-    print 'test commit git1'
 
+def retrieveTree(i):
+    listOfTree = [
+        {'no surfacing': {0: 'no', 1: {'flippers': {0: 'no', 1: 'yes'}}}},
+        {'no surfacing': {0: 'no', 1: {'flippers': {0: 'no', 1: 'yes'}}, 1: 'no'}}
+    ]
+    return listOfTree[i]
 
 
 

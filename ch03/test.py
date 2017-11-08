@@ -12,6 +12,7 @@ myDataSet, labels = tree.createDataSet()
 shannonEnt = tree.calcShannonEnt(myDataSet)
 print myDataSet
 
+
 retDataSet = tree.splitDataSet(myDataSet, 1, 1)
 #print retDataSet
 
@@ -24,12 +25,18 @@ myList = [0, 1, 1, 1, 0, 1]
 myList1 = [1, 0, 0, 0, 1, 0]
 tree.majorityCnt(myList)
 tree.majorityCnt(myList1)
+print labels
+
+# myTree = tree.createTree(myDataSet, labels)
+# print myTree
+
+#treePlotter.createPlot()
 
 
-myTree = tree.createTree(myDataSet, labels)
+myTree = treePlotter.retrieveTree(0)
 print myTree
 
-treePlotter.createPlot()
+print tree.classify(myTree, labels, [1, 0])
 
 
 
