@@ -26,3 +26,9 @@ print p0Vect, p1Vect, pAbusive
 
 
 bayes.testingNB()
+
+
+print bayes.textParse('This is a book ! ')
+
+
+bayes.spamTest()

@@ -3,7 +3,7 @@ from numpy import *
 import operator
 import matplotlib
 import matplotlib.pyplot as plt
-
+import random
 
 
 def loadDataSet():
@@ -77,6 +77,51 @@ def testingNB():
     testEntry = ['stupid', 'garbage']
     thisDoc = array(setOfWord2Vec(myVocablist, testEntry))
     print testEntry, 'classified as ', classifyNB(thisDoc, p0V, p1V, pAb)
+
+
+def textParse(bigString):
+    import re
+    listOfTokens = re.split(r'\W*', bigString)
+    return [tok.lower() for tok in listOfTokens if len(tok) > 2]
+
+def spamTest():
+    docList = []; classList = []; fullText = []
+    for i in range(1, 26):
+        wordList = textParse(open('email/spam/%d.txt' % i).read())
+        docList.append(wordList)
+        classList.append(1)
+        fullText.extend(wordList)
+
+        wordList = textParse(open('email/ham/%d.txt' % i).read())
+        docList.append(wordList)
+        classList.append(0)
+        fullText.extend(wordList)
+    vocabList = createVocabList(docList)
+    trainingList = range(50)
+    testList = []
+    for i in range(10):
+        randIndex = int(random.uniform(0, len(trainingList)))
+        testList.append(trainingList[randIndex])
+        del(trainingList[randIndex])
+
+    trainMat = []
+    trainClasses = []
+    for docIndex in trainingList:
+        trainMat.append(setOfWord2Vec(vocabList, docList[docIndex]))
+        trainClasses.append(classList[docIndex])
+    p0V, p1V, pAb = trainNB0(array(trainMat), array(trainClasses))
+
+    for i in range(10):
+        if classifyNB(setOfWord2Vec(vocabList, docList[testList[i]]), p0V, p1V, pAb) == classList[testList[i]]:
+            print 'r'
+        else:
+            print 'w'
+
+
+
+
+
+
 
 
 
