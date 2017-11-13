@@ -110,7 +110,7 @@ def spamTest():
         trainMat.append(setOfWord2Vec(vocabList, docList[docIndex]))
         trainClasses.append(classList[docIndex])
     p0V, p1V, pAb = trainNB0(array(trainMat), array(trainClasses))
-
+    #test
     for i in range(10):
         if classifyNB(setOfWord2Vec(vocabList, docList[testList[i]]), p0V, p1V, pAb) == classList[testList[i]]:
             print 'r'
