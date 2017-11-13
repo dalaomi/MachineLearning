@@ -3,7 +3,6 @@ from numpy import *
 import operator
 import matplotlib
 import matplotlib.pyplot as plt
-from math import log
 
 
 
@@ -29,3 +28,55 @@ def setOfWord2Vec(vocabList, inputSet):
         if word in vocabList:
             returnVec[vocabList.index(word)] = 1
     return returnVec
+
+# 允许一个词条出现多次，并记录次数
+def bagOfWord2Vec(vocabList, inputSet):
+    returnVec = [0] * len(vocabList)
+    for word in inputSet:
+        if word in vocabList:
+            returnVec[vocabList.index(word)] += 1
+    return returnVec
+
+def trainNB0(trainMatrix, trainCategory):
+    numTrainDocs = len(trainMatrix)
+    numWords = len(trainMatrix[0])
+    pAbusive = sum(trainCategory)/float(numTrainDocs)
+    p0Num = ones(numWords)
+    p1Num = ones(numWords)
+    p0Denom = 2.0
+    p1Denom = 2.0
+    for i in range(numTrainDocs):
+        if trainCategory[i] == 1:
+            p1Num += trainMatrix[i]
+            p1Denom += sum(trainMatrix[i])
+        else :
+            p0Num += trainMatrix[i]
+            p0Denom += sum(trainMatrix[i])
+    # 1
+    p1Vect = log(p1Num/p1Denom)
+    p0Vect = log(p0Num/p0Denom)
+    return p0Vect, p1Vect, pAbusive
+
+def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
+    p1 = sum(vec2Classify * p1Vec) + log(pClass1)
+    p0 = sum(vec2Classify * p0Vec) + log(1 - pClass1)
+    if p1 > p0:
+        return 1
+    else:
+        return 0
+def testingNB():
+    listOposts, listClasses = loadDataSet()
+    myVocablist = createVocabList(listOposts)
+    trainMat = []
+    for postinDoc in listOposts:
+        trainMat.append(setOfWord2Vec(myVocablist, postinDoc))
+    p0V, p1V, pAb = trainNB0(array(trainMat), array(listClasses))
+    testEntry = ['love', 'my', 'dalmation']
+    thisDoc = array(setOfWord2Vec(myVocablist, testEntry))
+    print testEntry, 'classified as ', classifyNB(thisDoc, p0V, p1V, pAb)
+    testEntry = ['stupid', 'garbage']
+    thisDoc = array(setOfWord2Vec(myVocablist, testEntry))
+    print testEntry, 'classified as ', classifyNB(thisDoc, p0V, p1V, pAb)
+
+
+

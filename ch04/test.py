@@ -6,13 +6,23 @@ import matplotlib.pyplot as plt
 from math import log
 import bayes
 
-postingList, classVec = bayes.loadDataSet()
-print postingList, classVec
+listOfPosts, listClasses = bayes.loadDataSet()
+print listOfPosts
+print listClasses
 
 
-vocabSet = bayes.createVocabList(postingList)
-print vocabSet
-print postingList[3]
-returnVec = bayes.setOfWord2Vec(vocabSet, postingList[3])
-print returnVec
+myVocabList = bayes.createVocabList(listOfPosts)
+print myVocabList
 
+trainMat = []
+for postinDoc in listOfPosts:
+    trainMat.append(bayes.setOfWord2Vec(myVocabList, postinDoc))
+
+print trainMat
+
+
+p0Vect, p1Vect, pAbusive = bayes.trainNB0(trainMat, listClasses)
+print p0Vect, p1Vect, pAbusive
+
+
+bayes.testingNB()
